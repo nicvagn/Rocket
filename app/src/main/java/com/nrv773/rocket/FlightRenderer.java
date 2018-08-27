@@ -1,15 +1,17 @@
 package com.nrv773.rocket;
 
-import android.opengl.EGLConfig;
+import android.opengl.GLES10;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 
+import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
+
 
 public class FlightRenderer implements GLSurfaceView.Renderer {
 
     @Override
-    public void onSurfaceCreated(GL10 gl10, javax.microedition.khronos.egl.EGLConfig eglConfig) {
+    public void onSurfaceCreated(GL10 gl10, EGLConfig eglConfig) {
         // Set the background frame color
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     }

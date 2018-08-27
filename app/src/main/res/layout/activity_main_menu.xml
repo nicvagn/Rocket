@@ -7,22 +7,24 @@
     tools:context=".MainMenuActivity">
 
     <Button
+        android:id="@+id/agencyBuilderButton"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginBottom="30dp"
         android:layout_marginTop="40dp"
         android:text="@string/agency_builder"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/arcadeButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/arcadeButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="343dp"
         android:text="@string/arcade"
+        android:onClick="startArcadeActivity"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

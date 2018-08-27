@@ -10,10 +10,11 @@ public class FlightActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_game);
 
         //Create a GLSurfaceView instance and set it
         //as the ContentView for this Activity.
-        mGLView = new MyGLSurfaceView(this);
+        mGLView = new FlightView(this);
         setContentView(mGLView);
     }
 }
