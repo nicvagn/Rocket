@@ -16,8 +16,6 @@ public class MainMenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_menu);
 
         arcadeModeButton = findViewById(R.id.arcadeButton);
-
-        setContentView(R.layout.activity_game);
     }
 
     /**
