@@ -25,7 +25,7 @@ public final class SizeOf {
             return 2;
         }
         if(dataType == int.class || dataType == Integer.class){
-            return 2;
+            return 4;
         }
         if(dataType == long.class || dataType == Long.class){
             return 8;
