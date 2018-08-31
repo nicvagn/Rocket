@@ -1,6 +1,5 @@
 package com.nrv773.rocket;
 
-import android.opengl.GLES20;
 import static android.opengl.GLES20.*; //so we can use static final fields and static methods without writing GLES20.whatever()
 import android.opengl.GLSurfaceView;
 
@@ -12,6 +11,8 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 import static com.nrv773.rocket.SizeOf.sizeof; //give c++ like sizeof function
+
+import com.nrv773.rocket.ShaderCompiler;
 
 /**
  * handle's all the openGL rendering for the flight
@@ -25,6 +26,26 @@ public class FlightRenderer implements GLSurfaceView.Renderer {
                                   0.5f, -0.5f
                                 };
 
+    //TODO: better way to read in shader code
+    private final String vertexShaderCode =
+                    "#version 330 core\n" +
+                    "\n" +
+                    "layout(location = 0) in vec4 position;\n" +
+                    "\n" +
+                    "void main()\n" +
+                    "{\n" +
+                    "   gl_Position = position;\n" +
+                    "}\n";
+    private final String fragmentShaderCode =
+                   "#version 330 core\n" +
+                   "\n" +
+                   "layout(location = 0) out vec4 color;\n" +
+                   "\n" +
+                   "void main()\n" +
+                   "{\n" +
+                   "   color = vec4(1.0, 0.0, 0.0, 1.0;\n" +
+                   "}\n";
+
     //create a buffer and add our triangle to it
     private Buffer triangle_positions_buffer = ByteBuffer   //this is quite the hack
             .allocateDirect(TRIANGLE_POSITIONS.length * sizeof(int.class))
@@ -36,9 +57,9 @@ public class FlightRenderer implements GLSurfaceView.Renderer {
      */
     @Override
     public void onSurfaceCreated(GL10 gl10, EGLConfig eglConfig) {
-
         // Set the background frame color
-        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        //glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
         int[] buffer = new int[1]; //basically used as a pointer, ie: so glGenBuffers can communicate
         glGenBuffers(1, buffer, 0); //generate our buffer, 1 is number of buffers, buffer int array and 0 is offset?
 
@@ -51,7 +72,10 @@ public class FlightRenderer implements GLSurfaceView.Renderer {
         // i=first attribute, size=number of components per, type=type we want these to be, stride = how far in byte to get to the next vertex, attribute offset=the offset to this attribute
         glVertexAttribPointer(0,2, GL_FLOAT, false, sizeof(float.class) * 2, 0 );
 
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        //TODO: make sure this is actually how you create a shader program and use it.
+        int program = ShaderCompiler.CreateShaderProgram(vertexShaderCode, fragmentShaderCode);
+        glUseProgram(program);
+
 
     }
 
@@ -71,7 +95,7 @@ public class FlightRenderer implements GLSurfaceView.Renderer {
      */
     @Override
     public void onDrawFrame(GL10 unused){
-        // Redraw background color
         glClear(GL_COLOR_BUFFER_BIT);
+        glDrawArrays(GL_TRIANGLES, 0, 3);
     }
 }

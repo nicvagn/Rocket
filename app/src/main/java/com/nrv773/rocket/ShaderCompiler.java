@@ -12,18 +12,22 @@ public final class ShaderCompiler {
      * @param Source source of shader
      * @return shader id of the compiled shader
      */
-    public static int CompileShader(int type, String Source){
+    private static int CompileShader(int type, String Source){
         int shaderId = glCreateShader(type);    //create a new shader and get it's id
         glShaderSource(shaderId, Source);       //associate shader id with source
         glCompileShader(shaderId);              //compile the shader via it's id
 
-        //TODO: error handling for shader source code is a hack
+        //TODO: error handling for shader source code is a hack, fix it
         int[] result = new int[1]; //java pointer rip
         glGetShaderiv(shaderId, GL_COMPILE_STATUS, result, 0); //check the compile status of our shader
 
-        if(result[0] == GL_FALSE){  //if it failed to compile print to console
+        if(result[0] == GL_FALSE){  //if it failed to compile print to console and delete shader
             String message = glGetShaderInfoLog(shaderId);
-            System.out.print(message);
+            System.out.println("Failed to compile " + type + " type shader");
+            System.out.println(message);
+
+            glDeleteShader(shaderId);   //if compalation failed, delete the shader
+            return 0;   //TODO: make this throw an error and be less hack
         }
 
         return shaderId;
