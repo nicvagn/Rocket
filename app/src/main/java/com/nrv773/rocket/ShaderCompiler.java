@@ -1,4 +1,6 @@
 package com.nrv773.rocket;
+import android.opengl.GLES20;
+
 import static android.opengl.GLES20.*; //so we can use static final fields and static methods without writing GLES20.whatever()
 
 /**
@@ -21,13 +23,9 @@ public final class ShaderCompiler {
         int[] result = new int[1]; //java pointer rip
         glGetShaderiv(shaderId, GL_COMPILE_STATUS, result, 0); //check the compile status of our shader
 
-        if(result[0] == GL_FALSE){  //if it failed to compile print to console and delete shader
-            String message = glGetShaderInfoLog(shaderId);
-            System.out.println("Failed to compile " + type + " type shader");
-            System.out.println(message);
-
+        if(result[0] == GL_FALSE) {  //if it failed to compile print to console and delete shader
             glDeleteShader(shaderId);   //if compalation failed, delete the shader
-            return 0;   //TODO: make this throw an error and be less hack
+            throw new RuntimeException("Compilation failed : " + GLES20.glGetShaderInfoLog(shaderId));
         }
 
         return shaderId;
